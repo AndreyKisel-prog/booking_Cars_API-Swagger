@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 
 /**
  * @OA\Schema(
@@ -32,7 +30,7 @@ class User extends Authenticatable
      *
      * @var integer
      */
-    private $id;
+    private int $id;
 
     /**
      * @OA\Property(
@@ -43,7 +41,7 @@ class User extends Authenticatable
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
 
     /**
@@ -57,7 +55,7 @@ class User extends Authenticatable
      *
      * @var \DateTime
      */
-    private $created_at;
+    private \DateTime $created_at;
 
     /**
      * @OA\Property(
@@ -70,7 +68,7 @@ class User extends Authenticatable
      *
      * @var \DateTime
      */
-    private $updated_at;
+    private \DateTime $updated_at;
 
     /**
      * @OA\Property(
@@ -83,7 +81,7 @@ class User extends Authenticatable
      *
      * @var \DateTime
      */
-    private $deleted_at;
+    private \DateTime $deleted_at;
 
 
     /**
@@ -92,7 +90,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'name'
     ];
 
     /**
@@ -114,7 +112,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function car()
+    public function car(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Car::class);
     }

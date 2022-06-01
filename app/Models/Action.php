@@ -29,7 +29,7 @@ class Action extends Model
      *
      * @var integer
      */
-    private $id;
+    private int $id;
 
     /**
      * @OA\Property(
@@ -40,7 +40,7 @@ class Action extends Model
      *
      * @var string
      */
-    public $user_id;
+    public string $userId;
 
     /**
      * @OA\Property(
@@ -51,15 +51,15 @@ class Action extends Model
      *
      * @var string
      */
-    public $car_id;
+    public string $carId;
 
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'user_id',
-        'car_id',
+        'userId',
+        'carId',
     ];
 
     /**

@@ -3,13 +3,14 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @OA\Schema(
  *      title="Store Action request",
  *      description="Store Action request body data",
  *      type="object",
- *      required={"user_id", "car_id"}
+ *      required={"userId", "carId"}
  * )
  */
 class ActionRequest extends FormRequest
@@ -17,25 +18,25 @@ class ActionRequest extends FormRequest
 
     /**
      * @OA\Property(
-     *      title="user_id",
+     *      title="userId",
      *      description="id of the user",
      *      example="1"
      * )
      *
      * @var string
      */
-    public $user_id;
+    public string $userId;
 
     /**
      * @OA\Property(
-     *      title="car_id",
+     *      title="carId",
      *      description="id of the car",
      *      example="1"
      * )
      *
      * @var string
      */
-    public $car_id;
+    public string $carId;
 
 
 
@@ -44,7 +45,7 @@ class ActionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -54,11 +55,11 @@ class ActionRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['userId' => "string", 'carId' => "string"])] public function rules(): array
     {
         return [
-            'user_id' => 'required|int',
-            'car_id' => 'required|int',
+            'userId' => 'required|int',
+            'carId' => 'required|int',
         ];
     }
 }

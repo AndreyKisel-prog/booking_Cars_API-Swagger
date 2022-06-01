@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unique()->unsigned();
-            $table->bigInteger('car_id')->unique()->unsigned();
+            $table->bigInteger('userId')->unique()->unsigned();
+            $table->bigInteger('carId')->unique()->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('user_id')
+            $table->foreign('userId')
                 ->references('id')
                 ->on('users');
 
-            $table->foreign('car_id')
+            $table->foreign('carId')
                 ->references('id')
                 ->on('cars');
 

@@ -25,9 +25,11 @@ class ActionController extends Controller
      *       ),
      *     )
      */
-    public function index()
+    public function index(): array
     {
-        return Action::all();
+        $actions = Action::all();
+        $total = $actions->count();
+        return compact('actions', 'total');
     }
 
 
@@ -57,7 +59,7 @@ class ActionController extends Controller
      *      )
      * )
      */
-    public function store(ActionRequest $request)
+    public function store(ActionRequest $request): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
             $action = Action::create($request->validated());
@@ -70,7 +72,7 @@ class ActionController extends Controller
             }
         }
         if ($action) {
-            return response(['status' => 'ok']);
+            return response(['status' => 'ok'], 201);
         }
         return response(['status' => 'failed']);
     }
@@ -106,10 +108,10 @@ class ActionController extends Controller
      *      ),
      * )
      */
-    public function show(Action $action)
+    public function show($id)
     {
         try {
-            return Action::findorfail($action);
+            return Action::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response([
                 'status' => 'ERROR',
@@ -157,14 +159,15 @@ class ActionController extends Controller
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy($id): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        $user = Action::findOrFail($id);
+        $action = Action::findOrFail($id);
 
-        if ($user->delete()) {
+        if ($action->delete()) {
             return response(null, 204);
         }
 
         return response(['status' => 'failed']);
     }
+
 }

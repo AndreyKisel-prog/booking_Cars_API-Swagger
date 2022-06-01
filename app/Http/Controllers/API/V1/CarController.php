@@ -29,9 +29,11 @@ class CarController extends Controller
      *       ),
      *     )
      */
-    public function index()
+    public function index(): array
     {
-        return Car::all();
+        $cars = Car::all();
+        $total = $cars->count();
+        return compact('cars', 'total');
     }
 
     /**
@@ -60,7 +62,7 @@ class CarController extends Controller
      *      )
      * )
      */
-    public function store(CarRequest $request)
+    public function store(CarRequest $request): \Illuminate\Http\JsonResponse
     {
         $car = Car::create($request->validated());
         if ($car) {
@@ -103,11 +105,11 @@ class CarController extends Controller
      *      ),
      * )
      */
-    public function show($id)
+    public function show($id): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
             $car = Car::findorfail($id);
-            return response()->json(['car' => $car], 200);
+            return response()->json(['car' => $car]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response([
                 'status' => 'ERROR',
@@ -152,12 +154,12 @@ class CarController extends Controller
      *      ),
      * )
      */
-    public function update(CarRequest $request, $id)
+    public function update(CarRequest $request, $id): \Illuminate\Http\JsonResponse
     {
         $car = Car::findOrFail($id);
 
         $car->update($request->validated());
-        return response()->json(['message' => 'car updated successfully'], 200);
+        return response()->json(['message' => 'car updated successfully']);
     }
 
     /**
@@ -199,9 +201,9 @@ class CarController extends Controller
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy($id): \Illuminate\Http\JsonResponse
     {
-        $car = Car::destroy($id);
+        $car = Car::findOrFail($id);
         if ($car->delete()) {
             return response()->json(['message' => 'car has been deleted successfully'], 204);
         }

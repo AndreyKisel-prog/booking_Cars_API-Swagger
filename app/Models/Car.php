@@ -14,10 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  *     )
  * )
  */
-
 class Car extends Model
 {
-
     /**
      * @OA\Property(
      *     title="ID",
@@ -28,7 +26,7 @@ class Car extends Model
      *
      * @var integer
      */
-    private $id;
+    private int $id;
 
     /**
      * @OA\Property(
@@ -39,7 +37,7 @@ class Car extends Model
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * @OA\Property(
@@ -52,7 +50,7 @@ class Car extends Model
      *
      * @var \DateTime
      */
-    private $created_at;
+    private \DateTime $created_at;
 
     /**
      * @OA\Property(
@@ -65,7 +63,7 @@ class Car extends Model
      *
      * @var \DateTime
      */
-    private $updated_at;
+    private \DateTime $updated_at;
 
     /**
      * @OA\Property(
@@ -78,17 +76,18 @@ class Car extends Model
      *
      * @var \DateTime
      */
-    private $deleted_at;
+    private \DateTime $deleted_at;
 
 
     use HasFactory;
 
-    protected $guarded = [];
+
     protected $fillable = [
-        'reg_number',
+        'name',
     ];
 
-    public function user()
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 
 /**
@@ -25,14 +26,14 @@ class CarRequest extends FormRequest
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -42,7 +43,7 @@ class CarRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string"])] public function rules(): array
     {
         return [
             'name' => 'required|string|unique:cars|max:8'

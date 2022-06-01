@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 
 /**
@@ -25,7 +26,7 @@ class UserRequest extends FormRequest
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
 
     /**
@@ -33,7 +34,7 @@ class UserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -43,10 +44,10 @@ class UserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string"])] public function rules(): array
     {
         return [
-            'name'=> 'required|string|unique:users|max:255',
+            'name'=> 'required|string|unique:users|max:255|min:3',
         ];
     }
 }

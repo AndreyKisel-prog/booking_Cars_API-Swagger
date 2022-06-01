@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use JetBrains\PhpStorm\ArrayShape;
 
 
 class UserController extends Controller
@@ -27,9 +28,14 @@ class UserController extends Controller
      *       ),
      *     )
      */
-    public function index()
+    #[ArrayShape(['users' => "mixed", 'total' => "mixed"])] public function index(): array
     {
-        return User::all();
+        $users = User::all();
+        $total = $users->count();
+        return [
+            'users' => $users,
+            'total' => $total
+        ];
     }
 
     /**
@@ -58,7 +64,7 @@ class UserController extends Controller
      *      )
      * )
      */
-    public function store(UserRequest $request)
+    public function store(UserRequest $request): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         $user = User::create($request->validated());
 
@@ -118,7 +124,7 @@ class UserController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response([
                 'status' => 'ERROR',
-                'error' => '404 not found'
+                'error'  => '404 not found'
             ], 404);
         }
     }
@@ -159,7 +165,7 @@ class UserController extends Controller
      *      ),
      * )
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, $id): \Illuminate\Http\JsonResponse
     {
         $user = User::findOrFail($id);
         $user->fill($request->validated());
@@ -206,7 +212,8 @@ class UserController extends Controller
      *      )
      * )
      */
-    public function destroy($id) {
+    public function destroy($id): \Illuminate\Http\JsonResponse
+    {
         $user = User::findOrFail($id);
         if ($user->delete()) {
             return response()->json(['message' => 'user has been deleted'], 204);
